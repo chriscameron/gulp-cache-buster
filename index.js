@@ -36,6 +36,7 @@ function getProductionPath(assetPath, flags) {
 var plugin = function(options) {
   var opts = _.extend({}, defaults, options);
   var replaceFunc = function(match, group) {
+    group = arguments[3];
     var parts = group.split(',');
     var assetPath = _.first(parts);
     var args = _.map(_.rest(parts), _.trim);
@@ -49,7 +50,7 @@ var plugin = function(options) {
     if (digest) {
       u.query = _.extend({}, u.query, {v: digest.substr(0, opts.hashLength)});
     }
-    return url.format(u);
+    return "url(" + url.format(u) + ")";
   };
   return es.map(function(file, cb) {
     var out = file;
